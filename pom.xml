@@ -6,7 +6,7 @@
 
     <groupId>org.ruivieira</groupId>
     <artifactId>decisiontree</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
     <build>
         <plugins>
             <plugin>
@@ -16,6 +16,28 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <!-- get all project dependencies -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <!-- MainClass in mainfest make a executable jar -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- bind to the packaging phase -->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -38,5 +60,40 @@
             <version>4.12</version>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <repositories>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>bintray-ruivieira-maven</id>
+                    <name>bintray</name>
+                    <url>https://dl.bintray.com/ruivieira/maven</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>bintray-ruivieira-maven</id>
+                    <name>bintray-plugins</name>
+                    <url>https://dl.bintray.com/ruivieira/maven</url>
+                </pluginRepository>
+            </pluginRepositories>
+            <id>bintray</id>
+        </profile>
+    </profiles>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-ruivieira-maven</id>
+            <name>ruivieira-maven</name>
+            <url>https://api.bintray.com/maven/ruivieira/maven/java-decision-tree/;publish=1</url>
+        </repository>
+    </distributionManagement>
+
 
 </project>

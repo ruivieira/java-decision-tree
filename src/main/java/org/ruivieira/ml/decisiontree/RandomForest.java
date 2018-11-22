@@ -25,7 +25,6 @@ public class RandomForest {
         for (DecisionTree tree : forest) {
             Value decision = tree.predict(item);
             if (decision != null) {
-                System.out.println("Decision = " + decision);
                 Integer newValue = result.getOrDefault(decision, 0) + 1;
                 result.put(decision, newValue);
             }

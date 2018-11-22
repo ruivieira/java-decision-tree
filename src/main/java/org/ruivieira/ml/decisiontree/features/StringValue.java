@@ -2,7 +2,7 @@ package org.ruivieira.ml.decisiontree.features;
 
 import java.util.Objects;
 
-public class StringValue implements Value {
+public class StringValue implements Value<String> {
 
     public String getData() {
         return data;
@@ -20,6 +20,7 @@ public class StringValue implements Value {
 
     @Override
     public boolean compare(Value other) {
+
         return data.equals(other.getData());
     }
 

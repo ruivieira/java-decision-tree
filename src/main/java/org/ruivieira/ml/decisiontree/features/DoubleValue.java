@@ -1,5 +1,7 @@
 package org.ruivieira.ml.decisiontree.features;
 
+import java.util.Objects;
+
 public class DoubleValue implements Value<Double> {
 
     private final Double data;
@@ -10,16 +12,33 @@ public class DoubleValue implements Value<Double> {
 
     @Override
     public boolean compare(Value other) {
-        return false;
+        if (other instanceof DoubleValue) {
+            return this.data >= (Double) other.getData() ;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public Value clone() {
-        return null;
+        return new DoubleValue(data);
     }
 
     @Override
     public Double getData() {
         return data;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DoubleValue that = (DoubleValue) o;
+        return Objects.equals(data, that.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(data);
     }
 }
