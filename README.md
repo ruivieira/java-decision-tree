@@ -60,3 +60,7 @@ Or by downloading this reposity and installing the library locally by running
 ```text
 $ mvn install
 ```
+
+## notes
+
+* The changelog is [here](CHANGELOG.md);
