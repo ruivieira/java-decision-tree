@@ -63,4 +63,4 @@ $ mvn install
 
 ## notes
 
-* The changelog is [here](CHANGELOG.md);
+* The changelog is [here](CHANGELOG.md).
