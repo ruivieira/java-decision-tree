@@ -19,6 +19,7 @@ package org.ruivieira.ml.decisiontree;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.ruivieira.ml.decisiontree.features.BooleanValue;
 import org.ruivieira.ml.decisiontree.features.DoubleValue;
 import org.ruivieira.ml.decisiontree.features.StringValue;
 import org.ruivieira.ml.decisiontree.features.Value;
@@ -32,6 +33,7 @@ public class DecisionTreeTest {
 
     private Dataset data;
     private Dataset dataWithPrice;
+    private Dataset dataWithBooleans;
 
     @Before
     public void setUp() {
@@ -161,6 +163,30 @@ public class DecisionTreeTest {
         item8p.add("price", new DoubleValue(2587.0));
         dataWithPrice.add(item8p);
 
+        dataWithBooleans = Dataset.create();
+        Item item1b = Item.create();
+        item1b.add("temperature", new StringValue("high"));
+        item1b.add("rain", new StringValue("none"));
+        item1b.add("out", new BooleanValue(true));
+        dataWithBooleans.add(item1b);
+
+        Item item2b = Item.create();
+        item2b.add("temperature", new StringValue("low"));
+        item2b.add("rain", new StringValue("none"));
+        item2b.add("out", new BooleanValue(true));
+        dataWithBooleans.add(item2b);
+
+        Item item3b = Item.create();
+        item3b.add("temperature", new StringValue("low"));
+        item3b.add("rain", new StringValue("some"));
+        item3b.add("out", new BooleanValue(false));
+        dataWithBooleans.add(item3b);
+
+        Item item4b = Item.create();
+        item4b.add("temperature", new StringValue("freezing"));
+        item4b.add("rain", new StringValue("none"));
+        item4b.add("out", new BooleanValue(false));
+        dataWithBooleans.add(item4b);
     }
 
 
@@ -228,6 +254,24 @@ public class DecisionTreeTest {
         question.add("price", new DoubleValue(2600.0));
 
         final RandomForest forest = RandomForest.create(config, 10, 4);
+
+        System.out.println(forest.predict(question));
+    }
+
+    @Test
+    public void randomForestBoolean() {
+        TreeConfig config = TreeConfig.create();
+        config.setData(dataWithBooleans);
+        config.setDecision("out");
+
+        final Item question = Item.create();
+        question.add("rain", new StringValue("some"));
+
+        final RandomForest forest = RandomForest.create(config, 100, 2);
+
+        System.out.println(forest.predict(question));
+
+        question.add("temperature", new StringValue("freezing"));
 
         System.out.println(forest.predict(question));
     }
