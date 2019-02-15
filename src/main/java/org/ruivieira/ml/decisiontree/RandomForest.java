@@ -16,6 +16,9 @@
 
 package org.ruivieira.ml.decisiontree;
 
+import org.ruivieira.ml.decisiontree.entropy.Entropy;
+import org.ruivieira.ml.decisiontree.entropy.ImpurityEstimator;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +29,11 @@ public class RandomForest {
 
     private final List<DecisionTree> forest= new CopyOnWriteArrayList<>();
 
-    private  RandomForest(TreeConfig config, int number, int samples) {
+    private  RandomForest(TreeConfig config, int number, int samples, ImpurityEstimator estimator) {
         IntStream.range(0, number).parallel().forEach((i) -> {
             final TreeConfig clonedConfig = config.clone();
             clonedConfig.setData(Dataset.sample(config.getData(), samples));
-            final DecisionTree tree = DecisionTree.create(clonedConfig);
+            final DecisionTree tree = DecisionTree.create(clonedConfig, estimator);
             forest.add(tree);
         });
     }
@@ -48,6 +51,11 @@ public class RandomForest {
     }
 
     public static RandomForest create(TreeConfig config, int number, int samples) {
-        return new RandomForest(config, number, samples);
+        return create(config, number, samples, new Entropy());
     }
+
+    public static RandomForest create(TreeConfig config, int number, int samples, ImpurityEstimator estimator) {
+        return new RandomForest(config, number, samples, estimator);
+    }
+
 }
