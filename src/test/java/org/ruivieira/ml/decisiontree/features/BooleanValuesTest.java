@@ -117,7 +117,7 @@ public class BooleanValuesTest {
 
         final RandomForest forest = RandomForest.create(config, 100, 1);
         final Map<Value, Integer> prediction = forest.predict(question);
-
+        System.out.println(prediction);
         Assert.assertEquals(prediction.keySet().size(), 1);
         Assert.assertTrue(prediction.get(new BooleanValue(true)) > 50);
 
