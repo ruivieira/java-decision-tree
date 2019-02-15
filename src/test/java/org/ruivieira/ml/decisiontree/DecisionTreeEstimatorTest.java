@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Rui Vieira
+ * Copyright (c) 2019 Rui Vieira
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package org.ruivieira.ml.decisiontree;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.ruivieira.ml.decisiontree.entropy.Entropy;
+import org.ruivieira.ml.decisiontree.entropy.Gini;
 import org.ruivieira.ml.decisiontree.entropy.ImpurityEstimator;
 import org.ruivieira.ml.decisiontree.features.BooleanValue;
 import org.ruivieira.ml.decisiontree.features.DoubleValue;
@@ -30,7 +30,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class DecisionTreeTest {
+public class DecisionTreeEstimatorTest {
 
     private Dataset data;
     private Dataset dataWithPrice;
@@ -208,10 +208,10 @@ public class DecisionTreeTest {
     }
 
     @Test
-    public void entropy() {
-        final ImpurityEstimator estimator = new Entropy();
+    public void gini() {
+        final ImpurityEstimator estimator = new Gini();
         double entropyUser = estimator.impurity("user", data);
-        assertEquals(2.0, entropyUser, 1e-9);
+        assertEquals(0.75, entropyUser, 1e-9);
     }
 
     @Test
@@ -223,7 +223,7 @@ public class DecisionTreeTest {
         TreeConfig config = TreeConfig.create();
         config.setData(data);
         config.setDecision("brand");
-        DecisionTree dt = DecisionTree.create(config);
+        DecisionTree dt = DecisionTree.create(config, new Gini());
 
         final Item question = Item.create();
         question.add("department", new StringValue("engineering"));
@@ -240,7 +240,7 @@ public class DecisionTreeTest {
         final Item question = Item.create();
         question.add("brand", new StringValue("Apple"));
 
-        final RandomForest forest = RandomForest.create(config, 100, 4);
+        final RandomForest forest = RandomForest.create(config, 100, 4, new Gini());
         final Map<Object, Integer> prediction = forest.predict(question);
         System.out.println(prediction);
         assertTrue(prediction.get(new StringValue("design")) > prediction.get(new StringValue("engineering")));
@@ -255,7 +255,7 @@ public class DecisionTreeTest {
         final Item question = Item.create();
         question.add("price", new DoubleValue(2600.0));
 
-        final RandomForest forest = RandomForest.create(config, 10, 4);
+        final RandomForest forest = RandomForest.create(config, 10, 4, new Gini());
 
         System.out.println(forest.predict(question));
     }
@@ -269,7 +269,7 @@ public class DecisionTreeTest {
         final Item question = Item.create();
         question.add("rain", new StringValue("some"));
 
-        final RandomForest forest = RandomForest.create(config, 100, 2);
+        final RandomForest forest = RandomForest.create(config, 100, 2, new Gini());
 
         System.out.println(forest.predict(question));
 

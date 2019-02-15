@@ -16,6 +16,8 @@
 
 package org.ruivieira.ml.decisiontree;
 
+import org.ruivieira.ml.decisiontree.entropy.Entropy;
+import org.ruivieira.ml.decisiontree.entropy.ImpurityEstimator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +39,10 @@ public class DecisionTree {
     }
 
     public static DecisionTree create(TreeConfig config) {
+        return create(config, new Entropy());
+    }
+
+    public static DecisionTree create(TreeConfig config, ImpurityEstimator estimator) {
         staticLogger.debug("Creating decision tree with:");
         staticLogger.debug(config.toString());
 
@@ -49,7 +55,8 @@ public class DecisionTree {
             return tree;
         }
 
-        double entropy = data.entropy(config.getDecision());
+        final String _attribute = config.getDecision();
+        double entropy = estimator.impurity(_attribute, data);
 
         if (entropy <= config.getEntropyThreshold()) {
             tree.decision = data.valueFrequency(config.getDecision());
@@ -75,8 +82,9 @@ public class DecisionTree {
                 cache.add(cacheEntry);
                 final Split split = data.calculateSplit(attribute, pivot);
                 staticLogger.debug(split.toString());
-                final double trueBranchEntropy = split.getTrueBranch().entropy(config.getDecision());
-                final double falseBranchEntropy = split.getFalseBranch().entropy(config.getDecision());
+
+                final double trueBranchEntropy = estimator.impurity(_attribute, split.getTrueBranch());
+                final double falseBranchEntropy = estimator.impurity(_attribute, split.getFalseBranch());
 
                 double newEntropy = 0.0;
                 newEntropy += trueBranchEntropy * (double) split.getTrueBranch().size();
@@ -101,12 +109,12 @@ public class DecisionTree {
             final TreeConfig trueBranchConfig = config.clone();
             trueBranchConfig.setMaxDepth(childMaxDepth);
             trueBranchConfig.setData(bestSplit.getTrueBranch());
-            tree.trueBranch = create(trueBranchConfig);
+            tree.trueBranch = create(trueBranchConfig, estimator);
 
             final TreeConfig falseBranchConfig = config.clone();
             falseBranchConfig.setMaxDepth(childMaxDepth);
             falseBranchConfig.setData(bestSplit.getFalseBranch());
-            tree.falseBranch = create(falseBranchConfig);
+            tree.falseBranch = create(falseBranchConfig, estimator);
 
             tree.attribute = bestSplit.getAttribute();
             tree.pivot = bestSplit.getPivot();

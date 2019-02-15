@@ -32,9 +32,6 @@ public class Dataset {
         return items;
     }
 
-    private static double log2(double x) {
-        return Math.log(x) / Math.log(2);
-    }
 
     public void add(Item item) {
         items.add(item);
@@ -79,19 +76,6 @@ public class Dataset {
             }
         }
         return counter;
-    }
-
-    public double entropy(String attribute) {
-        final Map<Object, Integer> counter = getUniqueValues(attribute);
-        final double size = (double) items.size();
-        double entropy = 0.0;
-
-        for (Integer i : counter.values()) {
-            double p = (double) i / size;
-            entropy += -p * log2(p);
-        }
-
-        return entropy;
     }
 
     public Split calculateSplit(String attribute, Object pivot) {
