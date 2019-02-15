@@ -13,7 +13,7 @@ You can use this library as a Maven dependency by adding
 <dependency>
     <groupId>org.ruivieira</groupId>
     <artifactId>decisiontree</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.7</version>
 </dependency>
 ```
 
