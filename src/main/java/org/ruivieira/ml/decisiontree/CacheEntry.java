@@ -16,21 +16,19 @@
 
 package org.ruivieira.ml.decisiontree;
 
-import org.ruivieira.ml.decisiontree.features.Value;
-
 import java.util.Objects;
 
 public class CacheEntry {
 
     private String attribute;
-    private Value value;
+    private Object value;
 
-    private CacheEntry(String attribute, Value value) {
+    private CacheEntry(String attribute, Object value) {
         this.attribute = attribute;
         this.value = value;
     }
 
-    public static CacheEntry create(String attribute, Value value) {
+    public static CacheEntry create(String attribute, Object value) {
         return new CacheEntry(attribute, value);
     }
 

@@ -22,7 +22,6 @@ import org.junit.Test;
 import org.ruivieira.ml.decisiontree.features.BooleanValue;
 import org.ruivieira.ml.decisiontree.features.DoubleValue;
 import org.ruivieira.ml.decisiontree.features.StringValue;
-import org.ruivieira.ml.decisiontree.features.Value;
 
 import java.util.Map;
 
@@ -192,14 +191,14 @@ public class DecisionTreeTest {
 
     @Test
     public void calculateValueFrequency() {
-        Value brand = data.valueFrequency("brand");
+        Object brand = data.valueFrequency("brand");
         System.out.println(brand);
         Assert.assertEquals(new StringValue("Lenovo"), brand);
     }
 
     @Test
     public void countUniqueValues() {
-        Map<Value, Integer> department = data.getUniqueValues("department");
+        Map<Object, Integer> department = data.getUniqueValues("department");
         System.out.println(department);
         assertEquals(2, department.size());
         assertEquals(new Integer(4), department.get(new StringValue("design")));
@@ -239,7 +238,7 @@ public class DecisionTreeTest {
         question.add("brand", new StringValue("Apple"));
 
         final RandomForest forest = RandomForest.create(config, 100, 4);
-        final Map<Value, Integer> prediction = forest.predict(question);
+        final Map<Object, Integer> prediction = forest.predict(question);
         System.out.println(prediction);
         assertTrue(prediction.get(new StringValue("design")) > prediction.get(new StringValue("engineering")));
     }

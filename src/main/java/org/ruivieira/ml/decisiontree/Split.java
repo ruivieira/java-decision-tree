@@ -16,14 +16,12 @@
 
 package org.ruivieira.ml.decisiontree;
 
-import org.ruivieira.ml.decisiontree.features.Value;
-
 class Split {
     double gain = 0.0; // default gain
     private Dataset trueBranch;
     private Dataset falseBranch;
     private String attribute;
-    private Value pivot;
+    private Object pivot;
 
     private Split(Dataset trueBranch, Dataset falseBranch) {
         this.trueBranch = trueBranch;
@@ -50,11 +48,11 @@ class Split {
         this.attribute = attribute;
     }
 
-    public Value getPivot() {
+    public Object getPivot() {
         return pivot;
     }
 
-    public void setPivot(Value pivot) {
+    public void setPivot(Object pivot) {
         this.pivot = pivot;
     }
 

@@ -16,9 +16,6 @@
 
 package org.ruivieira.ml.decisiontree;
 
-import org.ruivieira.ml.decisiontree.features.Value;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,10 +35,10 @@ public class RandomForest {
         });
     }
 
-    public Map<Value, Integer> predict(Item item) {
-        Map<Value, Integer> result = new HashMap<>();
+    public Map<Object, Integer> predict(Item item) {
+        Map<Object, Integer> result = new HashMap<>();
         for (DecisionTree tree : forest) {
-            Value decision = tree.predict(item);
+            Object decision = tree.predict(item);
             if (decision != null) {
                 Integer newValue = result.getOrDefault(decision, 0) + 1;
                 result.put(decision, newValue);
