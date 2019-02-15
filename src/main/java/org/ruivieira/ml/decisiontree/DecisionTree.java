@@ -16,7 +16,6 @@
 
 package org.ruivieira.ml.decisiontree;
 
-import org.ruivieira.ml.decisiontree.features.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,9 +26,9 @@ public class DecisionTree {
 
     private static final Logger staticLogger = LoggerFactory.getLogger(DecisionTree.class);
 
-    private Value decision;
+    private Object decision;
     private String attribute;
-    private Value pivot;
+    private Object pivot;
     private DecisionTree trueBranch;
     private DecisionTree falseBranch;
 
@@ -67,7 +66,7 @@ public class DecisionTree {
                 if (attribute.equals(config.getDecision()) || config.isIgnored(attribute)) {
                     continue;
                 }
-                final Value pivot = item.get(attribute);
+                final Object pivot = item.get(attribute);
                 final CacheEntry cacheEntry = CacheEntry.create(attribute, pivot);
                 if (cache.contains(cacheEntry)) {
                     staticLogger.debug("Already checked.");
@@ -121,7 +120,7 @@ public class DecisionTree {
         }
     }
 
-    public Value predict(Item item) {
+    public Object predict(Item item) {
 
         DecisionTree tree = this;
 
@@ -133,11 +132,11 @@ public class DecisionTree {
 
                 final String attribute = tree.attribute;
 
-                final Value value = item.get(attribute);
+                final Object value = item.get(attribute);
 
-                final Value pivot = tree.pivot;
+                final Object pivot = tree.pivot;
 
-                if (value != null && pivot != null && value.compare(pivot)) {
+                if (value != null && value.equals(pivot)) {
                     tree = tree.trueBranch;
                 } else {
                     tree = tree.falseBranch;

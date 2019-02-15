@@ -47,7 +47,7 @@ public class BooleanValuesTest {
         config.setData(dataset);
 
         final RandomForest forest = RandomForest.create(config, 100, 1);
-        final Map<Value, Integer> prediction = forest.predict(question);
+        final Map<Object, Integer> prediction = forest.predict(question);
 
         System.out.println(prediction);
         Assert.assertEquals(prediction.keySet().size(), 1);
@@ -80,7 +80,7 @@ public class BooleanValuesTest {
         config.setData(dataset);
 
         final RandomForest forest = RandomForest.create(config, 100, 1);
-        final Map<Value, Integer> prediction = forest.predict(question);
+        final Map<Object, Integer> prediction = forest.predict(question);
 
         Assert.assertEquals(prediction.keySet().size(), 2);
     }
@@ -116,7 +116,7 @@ public class BooleanValuesTest {
         config.setData(dataset);
 
         final RandomForest forest = RandomForest.create(config, 100, 1);
-        final Map<Value, Integer> prediction = forest.predict(question);
+        final Map<Object, Integer> prediction = forest.predict(question);
         System.out.println(prediction);
         Assert.assertEquals(prediction.keySet().size(), 1);
         Assert.assertTrue(prediction.get(new BooleanValue(true)) > 50);

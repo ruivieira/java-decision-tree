@@ -16,8 +16,6 @@
 
 package org.ruivieira.ml.decisiontree;
 
-import org.ruivieira.ml.decisiontree.features.Value;
-
 import java.util.*;
 
 public class Dataset {
@@ -55,13 +53,13 @@ public class Dataset {
         return clone;
     }
 
-    public Value valueFrequency(String attribute) {
-        final Map<Value, Integer> counter = getUniqueValues(attribute);
+    public Object valueFrequency(String attribute) {
+        final Map<Object, Integer> counter = getUniqueValues(attribute);
 
         int mostFrequentCount = 0;
-        Value mostFrequentValue = null;
+        Object mostFrequentValue = null;
 
-        for (Value value : counter.keySet()) {
+        for (Object value : counter.keySet()) {
             if (counter.get(value) > mostFrequentCount) {
                 mostFrequentCount = counter.get(value);
                 mostFrequentValue = value;
@@ -71,12 +69,12 @@ public class Dataset {
         return mostFrequentValue;
     }
 
-    public Map<Value, Integer> getUniqueValues(String attribute) {
-        final Map<Value, Integer> counter = new HashMap<>();
+    public Map<Object, Integer> getUniqueValues(String attribute) {
+        final Map<Object, Integer> counter = new HashMap<>();
 
         for (Item item : items) {
             if (item.contains(attribute)) {
-                final Value value = item.get(attribute);
+                final Object value = item.get(attribute);
                 counter.put(value, counter.getOrDefault(value, 0) + 1);
             }
         }
@@ -84,7 +82,7 @@ public class Dataset {
     }
 
     public double entropy(String attribute) {
-        final Map<Value, Integer> counter = getUniqueValues(attribute);
+        final Map<Object, Integer> counter = getUniqueValues(attribute);
         final double size = (double) items.size();
         double entropy = 0.0;
 
@@ -96,15 +94,15 @@ public class Dataset {
         return entropy;
     }
 
-    public Split calculateSplit(String attribute, Value pivot) {
+    public Split calculateSplit(String attribute, Object pivot) {
 
         final Dataset trueBranch = new Dataset();
         final Dataset falseBranch = new Dataset();
 
         for (Item item : items) {
-            final Value value = item.get(attribute);
+            final Object value = item.get(attribute);
 
-            if (value.compare(pivot)) {
+            if (value.equals(pivot)) {
                 trueBranch.add(item);
             } else {
                 falseBranch.add(item);

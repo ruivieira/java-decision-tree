@@ -16,8 +16,6 @@
 
 package org.ruivieira.ml.decisiontree;
 
-import org.ruivieira.ml.decisiontree.features.Value;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -25,7 +23,7 @@ import java.util.Set;
 
 public class Item {
 
-    private final Map<String, Value> values = new HashMap<>();
+    private final Map<String, Object> values = new HashMap<>();
 
     private Item() {
 
@@ -39,11 +37,11 @@ public class Item {
         return values.containsKey(attribute);
     }
 
-    public Value get(String attribute) {
+    public Object get(String attribute) {
         return values.get(attribute);
     }
 
-    public void add(String attribute, Value value) {
+    public void add(String attribute, Object value) {
         values.put(attribute, value);
     }
 
@@ -67,7 +65,8 @@ public class Item {
     public Item clone() {
         final Item clone = new Item();
         for (String key : values.keySet()) {
-            clone.add(key, values.get(key).clone());
+//            clone.add(key, values.get(key).clone());
+            clone.add(key, values.get(key));
         }
         return clone;
     }
