@@ -2,6 +2,7 @@
 
 Java library implementing [Decision Trees](https://en.wikipedia.org/wiki/Decision_tree) and [Random Forests](https://en.wikipedia.org/wiki/Random_forest).
 
+- [x] Use generic Java objects as inputs (implementing `hashCode`) 
 ## installation
 
 You can use this library as a Maven dependency by adding
@@ -10,7 +11,7 @@ You can use this library as a Maven dependency by adding
 <dependency>
     <groupId>org.ruivieira</groupId>
     <artifactId>decisiontree</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.5</version>
 </dependency>
 ```
 
