@@ -3,6 +3,8 @@
 Java library implementing [Decision Trees](https://en.wikipedia.org/wiki/Decision_tree) and [Random Forests](https://en.wikipedia.org/wiki/Random_forest).
 
 - [x] Use generic Java objects as inputs (implementing `hashCode`) 
+- [x] Gini/entropy impurity estimators
+
 ## installation
 
 You can use this library as a Maven dependency by adding
